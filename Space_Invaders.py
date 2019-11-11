@@ -19,7 +19,7 @@ player_width = 40
 player_height = 40
 player_x = (window_width / 2) - (player_width / 2)
 player_y = window_height - 50
-velocity = 1
+velocity = 0.3
 
 # Boundaries
 player_boundry_x = window_width - player_width
@@ -48,7 +48,7 @@ while run:
         player_x += velocity
 
     # Fire
-    if keys[pygame.K_UP] and (now - last) >= cooldown:
+    if (keys[pygame.K_UP] or keys[pygame.K_SPACE]) and ((now - last) >= cooldown):
         last = now
         bullets.append(
             [
