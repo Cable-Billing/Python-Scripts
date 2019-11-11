@@ -1,3 +1,4 @@
+from random import randint
 import pygame
 pygame.init()
 
@@ -7,76 +8,130 @@ window_height = 500
 pygame.display.set_caption("Space Invaders")
 win = pygame.display.set_mode((window_width, window_height))
 
+# Score
+score = 0
+font = pygame.font.Font('freesansbold.ttf', 18)
+
 # Bullet information
-bullet_colour = (255, 136, 0)
 bullet_width = 2
 bullet_height = 20
-bullets = []
+player_bullets = []
+enemy_bullets = []
 
 # Player information
 player_colour = (66, 135, 245)
-player_width = 40
-player_height = 40
-player_x = (window_width / 2) - (player_width / 2)
-player_y = window_height - 50
-velocity = 0.3
+player_width = 35
+player_height = 35
+player = pygame.Rect(
+    (window_width / 2) - (player_width / 2),
+    window_height - 50,
+    player_width,
+    player_height
+)
+velocity = 1
 
 # Boundaries
 player_boundry_x = window_width - player_width
 player_boundry_y = window_height - player_height
 
 # Cooldown
-cooldown = 500 # Milliseconds
+cooldown = 100  # Milliseconds
 last = pygame.time.get_ticks()
 
-run = True
-while run:
+# Enemies
+enemy_colour = (235, 64, 52)
+enemies = []
+enemy_x = 50
+for i in range(8):
+    enemies.append(
+        pygame.Rect(
+            enemy_x + 10, 50, 30, 30
+        )
+    )
+    enemy_x += 50
+
+running = True
+while running:
     pygame.time.delay(1)
     now = pygame.time.get_ticks()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            run = False
+            running = False
 
     # Get all the keys that were pressed
     keys = pygame.key.get_pressed()
 
     # Move the player left or right
     if keys[pygame.K_LEFT]:
-        player_x -= velocity
+        player.x -= velocity
     elif keys[pygame.K_RIGHT]:
-        player_x += velocity
+        player.x += velocity
 
-    # Fire
+    # Player shoot
     if (keys[pygame.K_UP] or keys[pygame.K_SPACE]) and ((now - last) >= cooldown):
         last = now
-        bullets.append(
-            [
-                player_x + (player_width / 2),
-                player_y + (player_height / 2) - 10,
+        player_bullets.append(
+            pygame.Rect(
+                player.x + (player_width / 2),
+                player.y + (player_height / 2) - 10,
                 bullet_width,
                 bullet_height
-            ]
+            )
         )
 
     # Restrict player to the window
-    if player_x < 0:
-        player_x = 0
-    elif player_x > player_boundry_x:
-        player_x = player_boundry_x
+    if player.x < 0:
+        player.x = 0
+    elif player.x > player_boundry_x:
+        player.x = player_boundry_x
 
     # Fill the background
     win.fill((48, 50, 54))
 
-    # Draw the bullets
-    for bullet in bullets:
-        pygame.draw.rect(win, bullet_colour, bullet)
+    # Draw player bullets
+    for bullet in player_bullets:
+        pygame.draw.rect(win, player_colour, bullet)
         bullet[1] -= 1
         if bullet[1] < 0 - bullet_height:
-            bullets.remove(bullet)
+            player_bullets.remove(bullet)
+
+    # Draw enemy bullets
+    for bullet in enemy_bullets:
+        pygame.draw.rect(win, enemy_colour, bullet)
+        bullet[1] += 1
+        if bullet[1] > window_height:
+            enemy_bullets.remove(bullet)
+
+        if player.colliderect(bullet):
+            running = False
+
+    # Draw Enemies
+    for enemy in enemies:
+        pygame.draw.rect(win, enemy_colour, enemy)
+        # Enemy shoot
+        if randint(1, 2001) == 1:
+            enemy_bullets.append(
+                pygame.Rect(
+                    enemy.x + 15, enemy.y + 15, bullet_width, bullet_height
+                )
+            )
+
+        for bullet in player_bullets:
+            if enemy.colliderect(bullet):
+                enemies.remove(enemy)
+                player_bullets.remove(bullet)
+                score += 10
+
+    # Score Text
+    text = font.render("Score: " + str(score), True, (255, 255, 255))
+    textRect = text.get_rect()
+    textRect.x = 10
+    textRect.y = 10
+    win.blit(text, textRect)
 
     # Draw the player
-    pygame.draw.rect(win, player_colour, (player_x, player_y, player_width, player_height))
+    pygame.draw.rect(win, player_colour, player)
 
     # Update the display
     pygame.display.update()
