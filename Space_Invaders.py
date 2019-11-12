@@ -6,7 +6,7 @@ pygame.init()
 window_width = 500
 window_height = 500
 pygame.display.set_caption("Space Invaders")
-win = pygame.display.set_mode((window_width, window_height))
+window = pygame.display.set_mode((window_width, window_height))
 
 # Score
 score = 0
@@ -87,18 +87,18 @@ while running:
         player.x = player_boundry_x
 
     # Fill the background
-    win.fill((48, 50, 54))
+    window.fill((48, 50, 54))
 
     # Draw player bullets
     for bullet in player_bullets:
-        pygame.draw.rect(win, player_colour, bullet)
+        pygame.draw.rect(window, player_colour, bullet)
         bullet[1] -= 1
         if bullet[1] < 0 - bullet_height:
             player_bullets.remove(bullet)
 
     # Draw enemy bullets
     for bullet in enemy_bullets:
-        pygame.draw.rect(win, enemy_colour, bullet)
+        pygame.draw.rect(window, enemy_colour, bullet)
         bullet[1] += 1
         if bullet[1] > window_height:
             enemy_bullets.remove(bullet)
@@ -108,7 +108,7 @@ while running:
 
     # Draw Enemies
     for enemy in enemies:
-        pygame.draw.rect(win, enemy_colour, enemy)
+        pygame.draw.rect(window, enemy_colour, enemy)
         # Enemy shoot
         if randint(1, 2001) == 1:
             enemy_bullets.append(
@@ -128,10 +128,10 @@ while running:
     textRect = text.get_rect()
     textRect.x = 10
     textRect.y = 10
-    win.blit(text, textRect)
+    window.blit(text, textRect)
 
     # Draw the player
-    pygame.draw.rect(win, player_colour, player)
+    pygame.draw.rect(window, player_colour, player)
 
     # Update the display
     pygame.display.update()
