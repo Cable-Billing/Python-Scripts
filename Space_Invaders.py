@@ -35,7 +35,7 @@ player_boundry_x = window_width - player_width
 player_boundry_y = window_height - player_height
 
 # Cooldown
-cooldown = 100  # Milliseconds
+cooldown = 200 # Milliseconds
 last = pygame.time.get_ticks()
 
 # Enemies
