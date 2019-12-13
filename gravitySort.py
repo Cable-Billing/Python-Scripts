@@ -13,14 +13,14 @@ def gravity_sort(input_list):
     return return_list
 
 
-l = []
+list = []
 list_size = 100000
 for i in range(list_size):
-    l.append(randint(1, 11))
+    list.append(randint(1, 11))
 
 print("\nGRAVITY SORT")
 start_time = time.time()
-gravity_sort(l)
+gravity_sort(list)
 end_time = time.time()
 
 print("Time taken:", end_time - start_time)
@@ -28,7 +28,7 @@ print("List Size:", list_size)
 
 print("\nGENERIC SORT")
 start_time = time.time()
-l.sort()
+list.sort()
 end_time = time.time()
 
 print("Time taken:", end_time - start_time)
