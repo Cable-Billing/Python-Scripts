@@ -31,8 +31,8 @@ player = pygame.Rect(
 velocity = 1
 
 # Boundaries
-player_boundry_x = window_width - player_width
-player_boundry_y = window_height - player_height
+player_boundary_x = window_width - player_width
+player_boundary_y = window_height - player_height
 
 # Cooldown
 cooldown = 200 # Milliseconds
@@ -83,8 +83,8 @@ while running:
     # Restrict player to the window
     if player.x < 0:
         player.x = 0
-    elif player.x > player_boundry_x:
-        player.x = player_boundry_x
+    elif player.x > player_boundary_x:
+        player.x = player_boundary_x
 
     # Fill the background
     window.fill((48, 50, 54))
