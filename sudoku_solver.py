@@ -87,7 +87,6 @@ def check_valid_numbers(list_of_numbers):
                 return False
             elif int(number) == 0:
                 break
-    
     return True
 
 sudoku_board = [
