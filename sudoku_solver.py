@@ -37,6 +37,13 @@ row_nine = list(input())
 if len(row_nine) != 9:
     quit("Must be exacly 9 numbers")
 
+# print the board
+def print_board(array):
+    for x in range(9):
+        for y in range(9):
+            print(array[x][y], ' ', end='')
+        print()
+
 # Checks if the board is in a valid state
 def check_valid_board(board):
     # Checks each row
@@ -49,7 +56,7 @@ def check_valid_board(board):
     for column in range(9):
         column_to_check = list()
         for row in range(9):
-            column_to_check.append(board[row][0][column])
+            column_to_check.append(board[row][column])
         
         valid_column = check_valid_numbers(column_to_check)
         if not valid_column:
@@ -84,16 +91,19 @@ def check_valid_numbers(list_of_numbers):
     return True
 
 sudoku_board = [
-    [row_one],
-    [row_two],
-    [row_three],
-    [row_four],
-    [row_five],
-    [row_six],
-    [row_seven],
-    [row_eight],
-    [row_nine]
+    row_one,
+    row_two,
+    row_three,
+    row_four,
+    row_five,
+    row_six,
+    row_seven,
+    row_eight,
+    row_nine
 ]
+
+print('\nThe board you have provided\n')
+print_board(sudoku_board)
 
 if check_valid_board(sudoku_board):
     print('\nThe borad provided is valid')
