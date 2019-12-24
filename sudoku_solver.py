@@ -48,7 +48,7 @@ def print_board(array):
 def check_valid_board(board):
     # Checks each row
     for row in range(9):
-        valid_row = check_valid_numbers(board[row][0])
+        valid_row = check_valid_numbers(board[row])
         if not valid_row:
             return False
 
@@ -61,7 +61,6 @@ def check_valid_board(board):
         valid_column = check_valid_numbers(column_to_check)
         if not valid_column:
             return False
-        
     return True
 
 # Makes sure there are not duplicate numbers
